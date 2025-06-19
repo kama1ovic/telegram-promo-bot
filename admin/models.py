@@ -1,0 +1,28 @@
+"""
+Flask admin panel uchun modellar
+"""
+
+from flask_login import UserMixin
+
+
+class User(UserMixin):
+    """Flask-Login uchun User modeli"""
+
+    def __init__(self, username):
+        self.id = username
+        self.username = username
+
+    def get_id(self):
+        return self.username
+
+    @property
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_active(self):
+        return True
+
+    @property
+    def is_anonymous(self):
+        return False

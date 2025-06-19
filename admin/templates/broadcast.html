@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Xabar Yuborish{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4">Ommaviy xabar yuborish</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-bullhorn"></i> Xabar yuborish formasi
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        {{ form.hidden_tag() }}
+
+                        <div class="mb-3">
+                            {{ form.message.label(class="form-label") }}
+                            {{ form.message(class="form-control", rows="5") }}
+                            <div class="form-text">
+                                Emoji va formatlash uchun: <b>qalin</b>, <i>kursiv</i>, <code>kod</code>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.file.label(class="form-label") }}
+                            {{ form.file(class="form-control") }}
+                            <div class="form-text">
+                                Qo'llab-quvvatlanadigan formatlar: JPG, PNG, GIF, PDF, DOC, DOCX, ZIP
+                            </div>
+                        </div>
+
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <strong>Diqqat!</strong> Xabar barcha foydalanuvchilarga yuboriladi.
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            {{ form.submit(class="btn btn-primary btn-lg") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Natijalar -->
+            <div class="card shadow mt-4" id="broadcastResults" style="display: none;">
+                <div class="card-header">
+                    <h6 class="m-0 font-weight-bold text-success">
+                        <i class="fas fa-check-circle"></i> Yuborish natijalari
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <p id="resultMessage"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Show loading state when form is submitted
+$('form').on('submit', function() {
+    $(this).find('button[type="submit"]').prop('disabled', true)
+        .html('<i class="fas fa-spinner fa-spin"></i> Yuborilmoqda...');
+});
+</script>
+{% endblock %}

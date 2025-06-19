@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4">Dashboard</h1>
+
+    <!-- Statistics Cards -->
+    <div class="row">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Jami Foydalanuvchilar
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ stats.total_users }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Jami Kodlar
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ stats.total_codes }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-ticket-alt fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Ishlatilgan Kodlar
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ stats.used_codes }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Yutuqli Kodlar
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ stats.winning_codes }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-trophy fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Info -->
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-chart-line"></i> So'ngi 7 kunlik faollik
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <p>Yangi foydalanuvchilar: <strong>{{ stats.recent_users }}</strong></p>
+                    <div class="progress mb-4">
+                        <div class="progress-bar" role="progressbar"
+                             style="width: {% if stats.total_users > 0 %}{{ (stats.recent_users / stats.total_users * 100)|int }}{% else %}0{% endif %}%">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-tasks"></i> Tezkor harakatlar
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <a href="{{ url_for('codes') }}" class="btn btn-primary btn-sm mb-2">
+                        <i class="fas fa-plus"></i> Yangi kod qo'shish
+                    </a>
+                    <a href="{{ url_for('broadcast') }}" class="btn btn-success btn-sm mb-2">
+                        <i class="fas fa-paper-plane"></i> Xabar yuborish
+                    </a>
+                    <a href="{{ url_for('export_users') }}" class="btn btn-info btn-sm mb-2">
+                        <i class="fas fa-download"></i> Foydalanuvchilarni eksport qilish
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .border-left-primary {
+        border-left: 4px solid #4e73df;
+    }
+    .border-left-success {
+        border-left: 4px solid #1cc88a;
+    }
+    .border-left-info {
+        border-left: 4px solid #36b9cc;
+    }
+    .border-left-warning {
+        border-left: 4px solid #f6c23e;
+    }
+    .text-xs {
+        font-size: .7rem;
+    }
+    .text-gray-800 {
+        color: #5a5c69;
+    }
+    .text-gray-300 {
+        color: #dddfeb;
+    }
+</style>
+{% endblock %}

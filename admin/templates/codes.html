@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Kodlar{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4">Kodlar boshqaruvi</h1>
+
+    <div class="row">
+        <!-- Kod qo'shish formasi -->
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-plus"></i> Yangi kodlar qo'shish
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {{ form.hidden_tag() }}
+
+                        <div class="mb-3">
+                            {{ form.codes.label(class="form-label") }}
+                            {{ form.codes(class="form-control") }}
+                            <div class="form-text">Har bir qatorda bitta 8 xonali kod</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-check">
+                                {{ form.is_winning(class="form-check-input") }}
+                                {{ form.is_winning.label(class="form-check-label") }}
+                            </div>
+                        </div>
+
+                        {{ form.submit(class="btn btn-primary") }}
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kodlar ro'yxati -->
+        <div class="col-lg-8 mb-4">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6 class="m-0 font-weight-bold text-primary">
+                            <i class="fas fa-list"></i> Kodlar ro'yxati
+                        </h6>
+                        <div>
+                            <a href="{{ url_for('codes') }}" class="btn btn-sm btn-secondary">Hammasi</a>
+                            <a href="{{ url_for('codes', filter='winning') }}" class="btn btn-sm btn-warning">Yutuqli</a>
+                            <a href="{{ url_for('codes', filter='used') }}" class="btn btn-sm btn-info">Ishlatilgan</a>
+                            <a href="{{ url_for('export_codes') }}" class="btn btn-sm btn-success">
+                                <i class="fas fa-download"></i> Eksport
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Kod</th>
+                                    <th>Status</th>
+                                    <th>Holat</th>
+                                    <th>Yaratilgan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for code in codes %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td><code>{{ code.code }}</code></td>
+                                    <td>
+                                        {% if code.is_winning %}
+                                            <span class="badge bg-warning">Yutuqli</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">Oddiy</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if code.is_used %}
+                                            <span class="badge bg-success">Ishlatilgan</span>
+                                        {% else %}
+                                            <span class="badge bg-primary">Yangi</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ code.created_at }}</td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="5" class="text-center">Kodlar topilmadi</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
